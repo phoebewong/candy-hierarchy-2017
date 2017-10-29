@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1509291928745.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "112716925",
+    "id" : "7B22912E",
+    "lastKnownWriteTime" : 1509292078,
+    "last_content_update" : 1509292078333,
+    "path" : "~/candy-hierarchy-2017/candy_analysis.R",
+    "project_path" : "candy_analysis.R",
+    "properties" : {
+        "cursorPosition" : "26,60",
+        "scrollLine" : "8"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
