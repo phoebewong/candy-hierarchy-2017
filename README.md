@@ -7,7 +7,7 @@ Interestingly, the Candy Corn debate was featured on [Vogue](https://www.vogue.c
 
 # How do people feel about Candy Corn?
 First and foremost, more people feel despair about Candy Corn than joy. 
-And, no, we dont' see the same effect described by Vogue, since 22.8% people feel meh about Candy Corn.
+And, no, we don't see the same effect described by Vogue that 'there is no in-between for Candy Corn', since 22.8% people feel meh about Candy Corn.
 
 ![](candy_analysis_files/figure-markdown_github/candy%20corn%20percent-1.png)
 
