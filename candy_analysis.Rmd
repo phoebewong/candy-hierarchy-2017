@@ -69,7 +69,7 @@ g + annotation_custom(rasterGrob(img, width=unit(1,"npc"), height=unit(1,"npc"))
   geom_errorbar(data=cc_pert, aes(ymin = Freq-se, ymax = Freq+se), width = 0.15, color = "dark grey") +
   geom_text(label = round(cc_pert$Freq, 3) * 100) +
   scale_y_continuous(labels = scales::percent) +
-  labs(title = "Feelings when Receive Candy Corn", x = "Feelings",
+  labs(title = "Feelings when Receive Candy Corn", x = "Feelings", y = "", 
        subtitle = "With 95% Confidence Interval") +
   theme_minimal()
 ```
