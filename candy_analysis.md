@@ -91,7 +91,7 @@ print(p)
 
 ![](candy_analysis_files/figure-markdown_github/unnamed-chunk-1-1.png)
 
-Wow, there are a lot of candies on this plot. In the likert package, there is no default option of shortening the plot by y-axis, and it will require some re-engineering of the function in order to shorten the plot.
+Wow, there are a lot of candies/x-axis labels on this plot. In the likert package, there is no option/argument given to shorten the plot, and it requires some re-engineering of the function as shown below in order to shorten the plot.
 
 Candies that Receive &gt;= 50% Joy
 ==================================
@@ -140,9 +140,11 @@ Candies Receiving Least % (&lt;= 11%) of Joy
 
 ![](candy_analysis_files/figure-markdown_github/least%20joy-1.png)
 
+Besides looking at % of joy, % of despair is another important metric to be considered.
+
 According to [Candy Store](https://www.candystore.com/blog/holidays/halloween/definitive-ranking-best-worst-halloween-candies/), the **worst** Halloween candy is Circus Peanuts (the second worst is Candy Corn). Circus Peanuts has received 73% Despair and 11% Joy in this survey data.
 
-Let's look at where circus peanut is among other candies that receive high percentage of despair
+Let's see where circus peanut is on the list, among other candies that receive high percentage of despair.
 
 Candies that Receive Highest % of Despair
 =========================================
@@ -199,7 +201,7 @@ plot(likert_plot, colors = c("black", "grey", "orange"), include.histogram = TRU
 Likert Plot by Age
 ------------------
 
-It could also be interesting to look if there is a difference in candy preference between age groups.
+It could also be interesting to see if there is a difference in candy preference between age groups.
 
 First, we will clean up the age column by binning them.
 

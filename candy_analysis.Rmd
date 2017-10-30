@@ -98,7 +98,7 @@ p <- plot(likert_plot, colors = c("black", "grey", "orange")) + # change to Hall
 print(p)
 ```
 
-Wow, there are a lot of candies on this plot. In the likert package, there is no default option of shortening the plot by y-axis, and it will require some re-engineering of the function in order to shorten the plot.
+Wow, there are a lot of candies/x-axis labels on this plot. In the likert package, there is no option/argument given to shorten the plot, and it requires some re-engineering of the function as shown below in order to shorten the plot.
 
 # Candies that Receive >= 50% Joy
 ```{r highest joy}
@@ -169,12 +169,14 @@ ggplot(results, aes(y=value, x=Item, group=Item)) +
   geom_text(data=lsum, aes(x=Item, y=y,
 							  	   label=paste0(round(neutral), '%')),
 							       size=text.size, hjust=.5) +
-  labs(x = "", y = "Percentage", title = "Candy With <= 10% Joy")
+  labs(x = "", y = "Percentage", title = "Candy With <= 11% Joy")
 ```
+
+Besides looking at % of joy, % of despair is another important metric to be considered.
 
 According to [Candy Store](https://www.candystore.com/blog/holidays/halloween/definitive-ranking-best-worst-halloween-candies/), the **worst** Halloween candy is Circus Peanuts (the second worst is Candy Corn). Circus Peanuts has received 73% Despair and 11% Joy in this survey data. 
 
-Let's look at where circus peanut is among other candies that receive high percentage of despair
+Let's see where circus peanut is on the list, among other candies that receive high percentage of despair.
 
 # Candies that Receive Highest % of Despair
 ```{r highest despair}
@@ -222,7 +224,7 @@ plot(likert_plot, colors = c("black", "grey", "orange"), include.histogram = TRU
 ```
 
 ## Likert Plot by Age
-It could also be interesting to look if there is a difference in candy preference between age groups.
+It could also be interesting to see if there is a difference in candy preference between age groups.
 
 First, we will clean up the age column by binning them.
 ```{r likert age}
