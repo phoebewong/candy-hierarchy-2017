@@ -17,8 +17,8 @@ Second, [Candy Store](https://www.candystore.com/blog/holidays/halloween/definit
 ![](candy_analysis_files/figure-markdown_github/highest%20despair-1.png)
 
 # Should I Buy Candy Corn?
-Last and maybe the most relevant to some of you, should you buy Candy Corn for people coming for trick and treating?
-The short answer is up to you. It does not really matter to those who are going trick or treating.
+Last and maybe the most relevant to some of you, should you buy Candy Corn for people come trick or treating?
+The short answer is up to you. It does not really matter to those who (plan to) go trick or treating.
 
 ![](candy_analysis_files/figure-markdown_github/unnamed-chunk-3-1.png)
 
