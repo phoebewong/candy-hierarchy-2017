@@ -1,4 +1,4 @@
-# Candy Hierarchy Data 2017: Candy Corn :candy::lollipop::chocolate_bar:
+# Candy Hierarchy Data 2017:candy::lollipop::chocolate_bar:: Candy Corn
 ![](candycorn.png)
 
 Thanks to David Ng (and Jenny Bryan for sharing) at UBC publishing the [candy hierarchy data] (<http://www.scq.ubc.ca/so-much-candy-data-seriously/>) from an online survey. Candy Corn, as the signature candy of Halloween, I have spent my life time (more realistically, maybe every October I have lived) trying to understand the reason that people like it because I really do not get it.
