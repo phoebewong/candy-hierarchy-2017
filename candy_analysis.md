@@ -1,6 +1,6 @@
-Thanks to David Ng (and Jenny Bryan for sharing) at UBC publishing the candy hierarchy data (<http://www.scq.ubc.ca/so-much-candy-data-seriously/>). One candy really stood out to me that I'm interested to learn more about it. Candy Corn, as the signature candy of Halloween, I have spent my life time questing the reason that people like it because I thought most people love it.
+Thanks to David Ng (and Jenny Bryan for sharing) at UBC publishing the candy hierarchy data (<http://www.scq.ubc.ca/so-much-candy-data-seriously/>). One candy really stood out to me that I'm interested to learn more about it. Candy Corn, as the signature candy of Halloween, I have spent my life time questing the reason that people like it because I really do not understand.
 
-I'm glad to learn that I'm not alone on this. \_\_\_have mentioned it.
+I'm glad to learn that I'm not alone on the candy corn debate. [Vogue](https://www.vogue.com/article/candy-corn-love-hate) has commented that 'there is no in-between for Candy Corn, you either love it or hate it', we will see if we find that effect in this survey.
 
 Loading Packages and Reading in Data
 ------------------------------------
@@ -127,18 +127,18 @@ ggplot(results, aes(y=value, x=Item, group=Item)) +
 
 ![](candy_analysis_files/figure-markdown_github/highest%20joy-1.png)
 
-Candies Receiving Least % (&lt;= 10%) of Joy
+Candies Receiving Least % (&lt;= 11%) of Joy
 ============================================
 
 ``` r
 # reshape results
 results_10 <- table_summary$results %>% 
-  filter(JOY <= 10) # Filter to 50% JOY
+  filter(JOY <= 11) 
 results <- melt(results_10, id.vars='Item')
 results$Item <- factor(results_10$Item, levels = results_10$Item[order(results_10$JOY)]) #Sort bars from highest Joy
 
 lsum <- summary(table_summary, center = (table_summary$nlevels-1)/2 + 1) %>%
-  filter(high <= 10)
+  filter(high <= 11)
 lsum$y <- lsum$low + (lsum$neutral/2)
 # some defaults
 ymin = 0
@@ -164,6 +164,8 @@ ggplot(results, aes(y=value, x=Item, group=Item)) +
 ```
 
 ![](candy_analysis_files/figure-markdown_github/least%20joy-1.png)
+
+According to [Candy Store](https://www.candystore.com/blog/holidays/halloween/definitive-ranking-best-worst-halloween-candies/), the **worst** Halloween candy is Circus Peanuts (second worst as Candy Corn), which has also received 11% Joy and 73% Despair in this survey.
 
 We can use the following interactive plot to zoom in or out on the plot.
 
