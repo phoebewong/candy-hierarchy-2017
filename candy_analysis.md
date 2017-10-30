@@ -1,6 +1,6 @@
 ### Candy Hierarchy Data 2017: Candy Corn
 
-Thanks to David Ng (and Jenny Bryan for sharing) at UBC publishing the \[candy hierarchy data\] (<http://www.scq.ubc.ca/so-much-candy-data-seriously/>). One candy really stood out to me that I'm interested to dig deeper of the data about it. Candy Corn, as the signature candy of Halloween, I have spent my life time (more realistically, probably every October I have lived) trying to understand the reason that people like it because I really do not get it.
+Thanks to David Ng (and Jenny Bryan for sharing) at UBC publishing the [candy hierarchy data](http://www.scq.ubc.ca/so-much-candy-data-seriously/). One candy really stood out to me that I'm interested to dig deeper of the data about it. Candy Corn, as the signature candy of Halloween, I have spent my life time (more realistically, probably every October I have lived) trying to understand the reason that people like it because I really do not get it.
 
 I am glad to learn that I am not alone on this side of the candy corn debate as [Vogue](https://www.vogue.com/article/candy-corn-love-hate) pointed out many other Twitter users are with me. Vogue has also further commented that 'there is no in-between for Candy Corn, you either love it or hate it', we will see if the survey data says the same.
 
