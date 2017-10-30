@@ -4,14 +4,16 @@ output:
   md_document:
     variant: markdown_github
 ---
-
+### Candy Hierarchy Data 2017: Candy Corn
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, error = FALSE, warning = FALSE)
 ```
 
-Thanks to David Ng (and Jenny Bryan for sharing) at UBC publishing the candy hierarchy data (http://www.scq.ubc.ca/so-much-candy-data-seriously/). One candy really stood out to me that I'm interested to learn more about it. Candy Corn, as the signature candy of Halloween, I have spent my life time questing the reason that people like it because I really do not understand.
+Thanks to David Ng (and Jenny Bryan for sharing) at UBC publishing the [candy hierarchy data] (http://www.scq.ubc.ca/so-much-candy-data-seriously/). One candy really stood out to me that I'm interested to dig deeper of the data about it. Candy Corn, as the signature candy of Halloween, I have spent my life time (more realistically, probably every October I have lived) trying to understand the reason that people like it because I really do not get it.
 
-I'm glad to learn that I'm not alone on the candy corn debate. [Vogue](https://www.vogue.com/article/candy-corn-love-hate) has commented that 'there is no in-between for Candy Corn, you either love it or hate it', we will see if we find that effect in this survey. 
+I am glad to learn that I am not alone on this side of the candy corn debate as [Vogue](https://www.vogue.com/article/candy-corn-love-hate) pointed out many other Twitter users are with me. Vogue has also further commented that 'there is no in-between for Candy Corn, you either love it or hate it', we will see if the survey data says the same. 
+
+Now, let's (data) wrangle!
 
 ## Loading Packages and Reading in Data
 
@@ -24,14 +26,17 @@ library(grid)
 library(likert)
 library(reshape2)
 
-img <- readJPEG("1468620.jpg") #Candy Corn background
+img <- readJPEG("1468620.jpg") #Candy Corn background from clipart library
 data_orig <- read_csv("candyhierarchy2017.csv")
 data      <- data_orig
+
+# Clean candy names
 colnames(data) <- colnames(data) %>%
   iconv(to = "ASCII//TRANSLIT") %>% #convert for special characters
   str_replace_all(c("\\\\xd5" = "",
                     "Q6 \\| |Q\\d{1,2}\\: " = "",
-                    "\\?\\?" = ""))
+                    "\\?\\?" = "")) %>%
+  str_trunc(39, side="right")
 # Re-order levels of Candy Corn for future plotting purposes
 data$`Candy Corn` <- factor(data$`Candy Corn`, levels = c("DESPAIR", "MEH","JOY", NA))
 ```
@@ -40,7 +45,7 @@ data$`Candy Corn` <- factor(data$`Candy Corn`, levels = c("DESPAIR", "MEH","JOY"
 First, more people feel despair about candy corn than joy.
 NA means they left the question blank which can mean "they don't know the candy" as instructured in the survey or they skipped this option/question.
 
-```{r pressure, echo=FALSE}
+```{r candy corn feelings, echo=FALSE}
 g <- ggplot(data, aes(`Candy Corn`))
 g + annotation_custom(rasterGrob(img, width=unit(1,"npc"), height=unit(1,"npc")), 
                     -Inf, Inf, -Inf, Inf) +
@@ -49,12 +54,11 @@ g + annotation_custom(rasterGrob(img, width=unit(1,"npc"), height=unit(1,"npc"))
   theme_minimal()
 ```
 
-Now, let's do at these in percentages.
-```{r}
+Now, let's look at these in percentages.
+```{r candy corn percent}
 cc_pert <- table(data$`Candy Corn`, useNA = "ifany") %>%
   prop.table() %>% #ignoring NAs
-  data.frame() #%>%
-  # filter(Freq > 0) # remove NA row
+  data.frame()
 stderror <- function(p) {qnorm(.975) * sqrt(p * (1-p) / length(data$`Candy Corn`))} #95% CI
 cc_pert$se <- sapply(cc_pert$Freq, stderror)
 
@@ -72,8 +76,10 @@ g + annotation_custom(rasterGrob(img, width=unit(1,"npc"), height=unit(1,"npc"))
 
 30.2% feel Despair if they receive candy corn, while only 19.4% feel joy. Surprisingly, 27.6% did not respond to the question, I am curious to know if they truly do not know what Candy Corn is, or if they decided to skip the question. Unfortunately, there is no way I can differentiate the two from the data.
 
+However, we also see that 22.8% of respondents feel 'meh' about it, therefore, we did not see what [Vogue](https://www.vogue.com/article/candy-corn-love-hate) said 'no one feels "meh" about it' in our survey data.
+
 ## Likert Plot
-Traditionaly, these data are usually plotted on a "Net Feelies" metric (=#JOY-#DESPAIR). Using likert plot can allow us to also take a look at the neutral option (MEH). 
+Traditionaly, these data are usually plotted on a "Net Feelies" metric (=#JOY-#DESPAIR). Using likert plot can allow us to also take a look at the neutral option (meh). 
 
 ```{r, fig.width = 15, fig.height=10}
 candy <- data[, substr(colnames(data_orig), 1, 2) == "Q6"] #use index from orig data
@@ -133,7 +139,7 @@ ggplot(results, aes(y=value, x=Item, group=Item)) +
 ```
 
 # Candies Receiving Least % (<= 11%) of Joy
-```{r least joy}
+```{r least joy, echo = FALSE}
 # reshape results
 results_10 <- table_summary$results %>% 
   filter(JOY <= 11) 
@@ -166,9 +172,9 @@ ggplot(results, aes(y=value, x=Item, group=Item)) +
   labs(x = "", y = "Percentage", title = "Candy With <= 10% Joy")
 ```
 
-According to [Candy Store](https://www.candystore.com/blog/holidays/halloween/definitive-ranking-best-worst-halloween-candies/), the **worst** Halloween candy is Circus Peanuts (second worst as Candy Corn), which has also received 11% Joy and 73% Despair in this survey. 
+According to [Candy Store](https://www.candystore.com/blog/holidays/halloween/definitive-ranking-best-worst-halloween-candies/), the **worst** Halloween candy is Circus Peanuts (the second worst is Candy Corn). Circus Peanuts has received 73% Despair and 11% Joy in this survey data. 
 
-Let's look at where circus peanut is among candies that receive high percentage of despair
+Let's look at where circus peanut is among other candies that receive high percentage of despair
 
 # Candies that Receive Highest % of Despair
 ```{r highest despair}
@@ -208,7 +214,7 @@ ggplot(results, aes(y=value, x=Item, group=Item)) +
   labs(x = "", y = "Percentage", title = "Candy With >= 50% Despair")
 ```
 
-With the interesting options included in this survey (e.g., Broken glow stick?!), circus peanut is #10 on the above plot.
+With the interesting options included in this survey (e.g., Broken glow stick?!), circus peanut is ranked #10 on % of Despair it receives.
 
 The likert package also provides a look at the missing data for each candy item.
 ```{r missing data, fig.width = 15, fig.height=10}
@@ -216,7 +222,8 @@ plot(likert_plot, colors = c("black", "grey", "orange"), include.histogram = TRU
 ```
 
 ## Likert Plot by Age
-It could also be interesting to learn the change of preference of candy with age.
+It could also be interesting to look if there is a difference in candy preference between age groups.
+
 First, we will clean up the age column by binning them.
 ```{r likert age}
 # First, clean up age

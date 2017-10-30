@@ -1,6 +1,10 @@
-Thanks to David Ng (and Jenny Bryan for sharing) at UBC publishing the candy hierarchy data (<http://www.scq.ubc.ca/so-much-candy-data-seriously/>). One candy really stood out to me that I'm interested to learn more about it. Candy Corn, as the signature candy of Halloween, I have spent my life time questing the reason that people like it because I really do not understand.
+### Candy Hierarchy Data 2017: Candy Corn
 
-I'm glad to learn that I'm not alone on the candy corn debate. [Vogue](https://www.vogue.com/article/candy-corn-love-hate) has commented that 'there is no in-between for Candy Corn, you either love it or hate it', we will see if we find that effect in this survey.
+Thanks to David Ng (and Jenny Bryan for sharing) at UBC publishing the \[candy hierarchy data\] (<http://www.scq.ubc.ca/so-much-candy-data-seriously/>). One candy really stood out to me that I'm interested to dig deeper of the data about it. Candy Corn, as the signature candy of Halloween, I have spent my life time (more realistically, probably every October I have lived) trying to understand the reason that people like it because I really do not get it.
+
+I am glad to learn that I am not alone on this side of the candy corn debate as [Vogue](https://www.vogue.com/article/candy-corn-love-hate) pointed out many other Twitter users are with me. Vogue has also further commented that 'there is no in-between for Candy Corn, you either love it or hate it', we will see if the survey data says the same.
+
+Now, let's (data) wrangle!
 
 Loading Packages and Reading in Data
 ------------------------------------
@@ -14,14 +18,17 @@ library(grid)
 library(likert)
 library(reshape2)
 
-img <- readJPEG("1468620.jpg") #Candy Corn background
+img <- readJPEG("1468620.jpg") #Candy Corn background from clipart library
 data_orig <- read_csv("candyhierarchy2017.csv")
 data      <- data_orig
+
+# Clean candy names
 colnames(data) <- colnames(data) %>%
   iconv(to = "ASCII//TRANSLIT") %>% #convert for special characters
   str_replace_all(c("\\\\xd5" = "",
                     "Q6 \\| |Q\\d{1,2}\\: " = "",
-                    "\\?\\?" = ""))
+                    "\\?\\?" = "")) %>%
+  str_trunc(39, side="right")
 # Re-order levels of Candy Corn for future plotting purposes
 data$`Candy Corn` <- factor(data$`Candy Corn`, levels = c("DESPAIR", "MEH","JOY", NA))
 ```
@@ -31,15 +38,14 @@ Feelings when Receive Candy Corn
 
 First, more people feel despair about candy corn than joy. NA means they left the question blank which can mean "they don't know the candy" as instructured in the survey or they skipped this option/question.
 
-![](candy_analysis_files/figure-markdown_github/pressure-1.png)
+![](candy_analysis_files/figure-markdown_github/candy%20corn%20feelings-1.png)
 
-Now, let's do at these in percentages.
+Now, let's look at these in percentages.
 
 ``` r
 cc_pert <- table(data$`Candy Corn`, useNA = "ifany") %>%
   prop.table() %>% #ignoring NAs
-  data.frame() #%>%
-  # filter(Freq > 0) # remove NA row
+  data.frame()
 stderror <- function(p) {qnorm(.975) * sqrt(p * (1-p) / length(data$`Candy Corn`))} #95% CI
 cc_pert$se <- sapply(cc_pert$Freq, stderror)
 
@@ -55,14 +61,16 @@ g + annotation_custom(rasterGrob(img, width=unit(1,"npc"), height=unit(1,"npc"))
   theme_minimal()
 ```
 
-![](candy_analysis_files/figure-markdown_github/unnamed-chunk-1-1.png)
+![](candy_analysis_files/figure-markdown_github/candy%20corn%20percent-1.png)
 
 30.2% feel Despair if they receive candy corn, while only 19.4% feel joy. Surprisingly, 27.6% did not respond to the question, I am curious to know if they truly do not know what Candy Corn is, or if they decided to skip the question. Unfortunately, there is no way I can differentiate the two from the data.
+
+However, we also see that 22.8% of respondents feel 'meh' about it, therefore, we did not see what [Vogue](https://www.vogue.com/article/candy-corn-love-hate) said 'no one feels "meh" about it' in our survey data.
 
 Likert Plot
 -----------
 
-Traditionaly, these data are usually plotted on a "Net Feelies" metric (=\#JOY-\#DESPAIR). Using likert plot can allow us to also take a look at the neutral option (MEH).
+Traditionaly, these data are usually plotted on a "Net Feelies" metric (=\#JOY-\#DESPAIR). Using likert plot can allow us to also take a look at the neutral option (meh).
 
 ``` r
 candy <- data[, substr(colnames(data_orig), 1, 2) == "Q6"] #use index from orig data
@@ -81,7 +89,7 @@ p <- plot(likert_plot, colors = c("black", "grey", "orange")) + # change to Hall
 print(p)
 ```
 
-![](candy_analysis_files/figure-markdown_github/unnamed-chunk-2-1.png)
+![](candy_analysis_files/figure-markdown_github/unnamed-chunk-1-1.png)
 
 Wow, there are a lot of candies on this plot. In the likert package, there is no default option of shortening the plot by y-axis, and it will require some re-engineering of the function in order to shorten the plot.
 
@@ -130,15 +138,28 @@ ggplot(results, aes(y=value, x=Item, group=Item)) +
 Candies Receiving Least % (&lt;= 11%) of Joy
 ============================================
 
+![](candy_analysis_files/figure-markdown_github/least%20joy-1.png)
+
+According to [Candy Store](https://www.candystore.com/blog/holidays/halloween/definitive-ranking-best-worst-halloween-candies/), the **worst** Halloween candy is Circus Peanuts (the second worst is Candy Corn). Circus Peanuts has received 73% Despair and 11% Joy in this survey data.
+
+Let's look at where circus peanut is among other candies that receive high percentage of despair
+
+Candies that Receive Highest % of Despair
+=========================================
+
 ``` r
+# Re-engineer likert plot
+# create summary table
+table_summary <- likert(candy2)
+
 # reshape results
-results_10 <- table_summary$results %>% 
-  filter(JOY <= 11) 
-results <- melt(results_10, id.vars='Item')
-results$Item <- factor(results_10$Item, levels = results_10$Item[order(results_10$JOY)]) #Sort bars from highest Joy
+results_50 <- table_summary$results %>% 
+  filter(DESPAIR >= 50) # Filter to 50% JOY
+results <- melt(results_50, id.vars='Item')
+results$Item <- factor(results_50$Item, levels = results_50$Item[order(results_50$DESPAIR)]) #Sort bars from highest Joy
 
 lsum <- summary(table_summary, center = (table_summary$nlevels-1)/2 + 1) %>%
-  filter(high <= 11)
+  filter(low >= 50)
 lsum$y <- lsum$low + (lsum$neutral/2)
 # some defaults
 ymin = 0
@@ -160,14 +181,12 @@ ggplot(results, aes(y=value, x=Item, group=Item)) +
   geom_text(data=lsum, aes(x=Item, y=y,
                                    label=paste0(round(neutral), '%')),
                                    size=text.size, hjust=.5) +
-  labs(x = "", y = "Percentage", title = "Candy With <= 10% Joy")
+  labs(x = "", y = "Percentage", title = "Candy With >= 50% Despair")
 ```
 
-![](candy_analysis_files/figure-markdown_github/least%20joy-1.png)
+![](candy_analysis_files/figure-markdown_github/highest%20despair-1.png)
 
-According to [Candy Store](https://www.candystore.com/blog/holidays/halloween/definitive-ranking-best-worst-halloween-candies/), the **worst** Halloween candy is Circus Peanuts (second worst as Candy Corn), which has also received 11% Joy and 73% Despair in this survey.
-
-We can use the following interactive plot to zoom in or out on the plot.
+With the interesting options included in this survey (e.g., Broken glow stick?!), circus peanut is ranked \#10 on % of Despair it receives.
 
 The likert package also provides a look at the missing data for each candy item.
 
@@ -180,7 +199,9 @@ plot(likert_plot, colors = c("black", "grey", "orange"), include.histogram = TRU
 Likert Plot by Age
 ------------------
 
-It could also be interesting to learn the change of preference of candy with age. First, we will clean up the age column by binning them.
+It could also be interesting to look if there is a difference in candy preference between age groups.
+
+First, we will clean up the age column by binning them.
 
 ``` r
 # First, clean up age
@@ -248,7 +269,7 @@ plot_age <- function(candyage, agebin){
 # sapply(levels(data$agebin), plot_age) %>% invisible()
 ```
 
-![](candy_analysis_files/figure-markdown_github/unnamed-chunk-3-1.png)![](candy_analysis_files/figure-markdown_github/unnamed-chunk-3-2.png)![](candy_analysis_files/figure-markdown_github/unnamed-chunk-3-3.png)![](candy_analysis_files/figure-markdown_github/unnamed-chunk-3-4.png)![](candy_analysis_files/figure-markdown_github/unnamed-chunk-3-5.png)![](candy_analysis_files/figure-markdown_github/unnamed-chunk-3-6.png)![](candy_analysis_files/figure-markdown_github/unnamed-chunk-3-7.png)
+![](candy_analysis_files/figure-markdown_github/unnamed-chunk-2-1.png)![](candy_analysis_files/figure-markdown_github/unnamed-chunk-2-2.png)![](candy_analysis_files/figure-markdown_github/unnamed-chunk-2-3.png)![](candy_analysis_files/figure-markdown_github/unnamed-chunk-2-4.png)![](candy_analysis_files/figure-markdown_github/unnamed-chunk-2-5.png)![](candy_analysis_files/figure-markdown_github/unnamed-chunk-2-6.png)![](candy_analysis_files/figure-markdown_github/unnamed-chunk-2-7.png)
 
 Here are some more plots I have for the purpose of exploratory data analysis.
 
@@ -266,7 +287,7 @@ ggplot(data, aes(x = factor(`GOING OUT?`), fill = factor(`Candy Corn`))) +
   theme_minimal()
 ```
 
-![](candy_analysis_files/figure-markdown_github/unnamed-chunk-4-1.png)
+![](candy_analysis_files/figure-markdown_github/unnamed-chunk-3-1.png)
 
 ``` r
 # Plot: Candy Corn and Age
@@ -277,4 +298,4 @@ ggplot(data, aes(x = factor(agebin), fill = factor(`Candy Corn`))) +
   theme_minimal()
 ```
 
-![](candy_analysis_files/figure-markdown_github/unnamed-chunk-5-1.png)
+![](candy_analysis_files/figure-markdown_github/unnamed-chunk-4-1.png)
