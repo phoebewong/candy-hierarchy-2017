@@ -9,7 +9,7 @@ Interestingly, the Candy Corn debate was featured on [Vogue](https://www.vogue.c
 First and foremost, more people feel despair about Candy Corn than joy. 
 And, no, we dont' see the same effect described by Vogue, since 22.8% people feel meh about Candy Corn.
 
-![](candy_analysis_files/figure-markdown_github/candy corn percent-1.png)
+![](candy_analysis_files/figure-markdown_github/candy%20corn%20percent-1.png)
 
 # Is Circus Peanuts the Worst?
 Second, [Candy Store](https://www.candystore.com/blog/holidays/halloween/definitive-ranking-best-worst-halloween-candies/) said the **worst** Halloween candy is Circus Peanuts (the second worst is Candy Corn). With the interesting options included in this survey (e.g., Broken glow stick?!), circus peanut is ranked #10 on % of Despair it receives.
