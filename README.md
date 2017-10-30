@@ -8,6 +8,7 @@ Interestingly, the Candy Corn debate was featured on [Vogue](https://www.vogue.c
 # How do people feel about Candy Corn?
 First and foremost, more people feel despair about Candy Corn than joy. 
 And, no, we dont' see the same effect described by Vogue, since 22.8% people feel meh about Candy Corn.
+
 ![](candy_analysis_files/figure-markdown_github/candy corn percent-1.png)
 
 # Is Circus Peanuts the Worst?
@@ -18,6 +19,7 @@ Second, [Candy Store](https://www.candystore.com/blog/holidays/halloween/definit
 # Should I Buy Candy Corn?
 Last and maybe the most relevant to some of you, should you buy Candy Corn for people coming for trick and treating?
 The short answer is up to you. It does not really matter to those who are going trick or treating.
+
 ![](candy_analysis_files/figure-markdown_github/unnamed-chunk-3-1.png)
 
 # Happy Halloween! :jack_o_lantern::ghost:
