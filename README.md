@@ -20,4 +20,4 @@ Last and maybe the most relevant to some of you, should you buy Candy Corn for p
 The short answer is up to you. It does not really matter to those who are going trick or treating.
 ![](candy_analysis_files/figure-markdown_github/unnamed-chunk-3-1.png)
 
-# Happy Halloween! :jack_o_latern::ghost:
+# Happy Halloween! :jack_o_lantern::ghost:
